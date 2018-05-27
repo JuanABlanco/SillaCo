@@ -9,6 +9,6 @@ package sillaco.BackEnd;
  *
  * @author Juan Arturo Blanco
  */
-public abstract class Productor extends Thread {
+public abstract class Productor extends Thread{
     
 }
