@@ -5,17 +5,20 @@
  */
 package sillaco.BackEnd;
 
+import java.util.concurrent.Semaphore;
+
 /**
  *
  * @author Juan Arturo Blanco
  */
 public class SillaCo {
 
-    /**
-     * @param args the command line arguments
-     */
+    // Frames
+    private static FabricaFrame Fabrica = new FabricaFrame();
+    
     public static void main(String[] args) {
-        // TODO code application logic here
+        Fabrica.setVisible(true);
+        Fabrica.setDefaultCloseOperation(Fabrica.EXIT_ON_CLOSE);
     }
     
 }

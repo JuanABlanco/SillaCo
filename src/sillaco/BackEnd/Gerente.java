@@ -5,13 +5,17 @@
  */
 package sillaco.BackEnd;
 
+import java.util.Random;
 import java.util.concurrent.Semaphore;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Juan Arturo Blanco
  */
 public class Gerente extends Thread{
+    private FabricaFrame fabrica;
     private int Contador;
     private int AlmacenS [];
     private int K; 
@@ -19,8 +23,9 @@ public class Gerente extends Thread{
     private Semaphore SPS;
     private Semaphore SEC;
     private int OutS;
+    private int InS;
 
-    public Gerente(int Contador, int[] AlmacenS, int K, Semaphore SES, Semaphore SPS, Semaphore SEC, int OutS) {
+    public Gerente(FabricaFrame fabrica,int Contador, int[] AlmacenS, int K, Semaphore SES, Semaphore SPS, Semaphore SEC, int OutS, int InS) {
         this.Contador = Contador;
         this.AlmacenS = AlmacenS;
         this.K = K;
@@ -28,6 +33,16 @@ public class Gerente extends Thread{
         this.SPS = SPS;
         this.SEC = SEC;
         this.OutS = OutS;
+        this.InS = InS;
+        this.fabrica = fabrica;
+    }
+
+    public int getInS() {
+        return InS;
+    }
+
+    public void setInS(int InS) {
+        this.InS = InS;
     }
 
     public int getContador() {
@@ -87,17 +102,53 @@ public class Gerente extends Thread{
     }
     
     public void VerCro(){
-        
+        try {
+            SEC.acquire(1);
+                if(Contador==0){
+                    Despachar();
+                }else if(Contador==30){
+                    Motivar();
+                }else{
+                    Dormir();
+                }
+            SEC.release(1);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Gerente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void Despachar(){
-        
+        try {
+            int cant=0;
+            SES.acquire(1);
+                for(int i=0; i<100; i++){
+                    if(AlmacenS[i]==1){
+                        AlmacenS[i] =0;
+                        cant ++;
+                    }
+                }
+                fabrica.getLblASillas().setText("0");
+                setOutS(0);
+                setInS(0);
+            SES.release(1);
+            SPS.release(cant);
+            
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Gerente.class.getName()).log(Level.SEVERE, null, ex);
+        }      
     }
     
     public void Dormir(){
-        
+        try {
+            Random r = new Random();
+            this.fabrica.getjLabel13().setText("Durmiendo");
+            this.sleep(1000*(r.nextInt(18)+7));
+            this.fabrica.getjLabel13().setText("Despierto");
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Gerente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     public void Motivar(){
-        
+        this.K=2;
     }
 }
