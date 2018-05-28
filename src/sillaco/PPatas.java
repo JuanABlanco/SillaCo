@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sillaco.BackEnd;
+package sillaco;
 
+import sillaco.FabricaFrame;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static sillaco.SillaCo.PP;
 
 /**
  *
@@ -37,7 +39,7 @@ public class PPatas extends Productor{
         try {
                 SP.acquire(1);
                 SE.acquire(1);
-                    this.sleep((1000*getJornada())/getK());
+                    this.sleep((100*getJornada())/getK());
                     producir();
                 SE.release();
                 SC.release();
@@ -56,9 +58,9 @@ public class PPatas extends Productor{
         for(int j =0; j<cant; j++){
             boolean contratado = false;
             for(int i=0; i<10; i++){
-                if(this.fabrica.getPP()[i] == null && !contratado){
-                    this.fabrica.getPP()[i] = new PPatas(AlmacenP,fabrica,SE,SP,SC,K,In,Out);
-                    this.fabrica.getPP()[i].start();
+                if(PP[i] == null && !contratado){
+                    PP[i] = new PPatas(AlmacenP,fabrica,SE,SP,SC,K,In,Out);
+                    PP[i].start();
                     int num = Integer.parseInt(this.fabrica.getLblPPatas().getText())+1;
                     this.fabrica.getLblPPatas().setText(Integer.toString(num));
                 } else if(contratado){
@@ -71,8 +73,8 @@ public class PPatas extends Productor{
         for(int j =0; j<cant; j++){
             boolean despedido = false;
             for(int i=0; i<10; i++){
-                if(this.fabrica.getPP()[i] == null && !despedido){
-                    this.fabrica.getPP()[i] = null;
+                if(PP[i] == null && !despedido){
+                    PP[i] = null;
                     int num = Integer.parseInt(this.fabrica.getLblPPatas().getText())-1;
                     this.fabrica.getLblPPatas().setText(Integer.toString(num));
                 } else if(despedido){

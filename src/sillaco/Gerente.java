@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sillaco.BackEnd;
+package sillaco;
 
+import sillaco.FabricaFrame;
 import java.util.Random;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;

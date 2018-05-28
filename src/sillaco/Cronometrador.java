@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sillaco.BackEnd;
+package sillaco;
 
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
@@ -17,11 +17,13 @@ public class Cronometrador extends Thread{
     private int Contador;
     private FabricaFrame fabrica;
     private Semaphore SEC;
+    private int K;
 
-    public Cronometrador(int Contador, Semaphore SEC, FabricaFrame fabrica) {
+    public Cronometrador(int K,int Contador, Semaphore SEC, FabricaFrame fabrica) {
         this.Contador = Contador;
         this.SEC = SEC;
         this.fabrica = fabrica;
+        this.K = K;
     }
     // Setters y Getters
     
@@ -75,7 +77,7 @@ public class Cronometrador extends Thread{
             setContador(getContador()-1);
         }else{
             setContador(50);
-            this.fabrica.setK(1);
+            K=1;
         }
         this.fabrica.getLblContador().setText(Integer.toString(getContador()));
     }

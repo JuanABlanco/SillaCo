@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sillaco.BackEnd;
+package sillaco;
 
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static sillaco.SillaCo.Ensam;
 
 /**
  *
@@ -80,7 +81,7 @@ public class Ensamblador extends Thread{
             SEP.release();
             SPP.release(4);
             
-            this.sleep(2000/K);
+            this.sleep(200/K);
             
             SPS.acquire(1);
             SES.acquire(1);
@@ -114,9 +115,9 @@ public class Ensamblador extends Thread{
         for(int j =0; j<cant; j++){
             boolean contratado = false;
             for(int i=0; i<10; i++){
-                if(this.fabrica.getEnsam()[i] == null && !contratado){  
-                    this.fabrica.getEnsam()[i] = new Ensamblador(SES,SPS,SCS,InS,OutS,SEP,SPP,SCP,InP,OutP,SEA,SPA,SCA,InA,OutA,K, fabrica,AlmacenP,AlmacenA,AlmacenS);
-                    this.fabrica.getEnsam()[i].start();
+                if(Ensam[i] == null && !contratado){  
+                    Ensam[i] = new Ensamblador(SES,SPS,SCS,InS,OutS,SEP,SPP,SCP,InP,OutP,SEA,SPA,SCA,InA,OutA,K, fabrica,AlmacenP,AlmacenA,AlmacenS);
+                    Ensam[i].start();
                     int num = Integer.parseInt(this.fabrica.getLblEnsambladores().getText())+1;
                     this.fabrica.getLblEnsambladores().setText(Integer.toString(num));
                 } else if(contratado){
@@ -129,8 +130,8 @@ public class Ensamblador extends Thread{
         for(int j =0; j<cant; j++){
             boolean contratado = false;
             for(int i=0; i<10; i++){
-                if(this.fabrica.getEnsam()[i] == null && !contratado){  
-                    this.fabrica.getEnsam()[i] = null;
+                if(Ensam[i] == null && !contratado){  
+                    Ensam[i] = null;
                     int num = Integer.parseInt(this.fabrica.getLblEnsambladores().getText())-1;
                     this.fabrica.getLblEnsambladores().setText(Integer.toString(num));
                 } else if(contratado){

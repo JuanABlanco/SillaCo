@@ -3,53 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sillaco.BackEnd;
+package sillaco;
 
+import sillaco.Ensamblador;
+import sillaco.Cronometrador;
 import java.util.concurrent.Semaphore;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import static sillaco.SillaCo.*;
+
 
 /**
  *
  * @author Juan Arturo Blanco
  */
 public class FabricaFrame extends javax.swing.JFrame {
-    //Almacenes
-    private int AlmacenS []= new int[100];
-    private int AlmacenP []= new int[50];    
-    private int AlmacenA []= new int[40]; 
-    //Constantes
-    private int Contador=50;
-    private int K=1;
-    //Semaforos del Almacen de Patas y sus apuntadores 
-    private Semaphore SEP= new Semaphore(1);
-    private Semaphore SPP= new Semaphore(AlmacenP.length);
-    private Semaphore SCP= new Semaphore(0);
-    private int InP=0;
-    private int OutP=0;
-    //Semaforos del Almacen de Asientos y sus apuntadores 
-    private Semaphore SEA= new Semaphore(1);
-    private Semaphore SPA= new Semaphore(AlmacenA.length);
-    private Semaphore SCA= new Semaphore(0);
-    private int InA=0;
-    private int OutA=0;
-    //Semaforos del Almacen de Sillas y sus apuntadores 
-    private Semaphore SES= new Semaphore(1);
-    private Semaphore SPS= new Semaphore(AlmacenS.length);
-    private int InS=0;
-    private int OutS=0;
-    //Semaforo del contador
-    private Semaphore SEC= new Semaphore(1);
-    //Arreglos de Productores y Ensambladores
-    private PAsientos PA []= new PAsientos[10];
-    private PPatas PP []= new PPatas[10];
-    private Ensamblador Ensam []= new Ensamblador[5];
-    // Otros trabajadores
-    private Cronometrador Crono = new Cronometrador(Contador,SEC,this);
-    private Gerente Geren = new Gerente(this,Contador, AlmacenS, K, SES,SPS,SEC,OutS,InS);
-    
+
     //Setters y getters
     public JLabel getLblAAsientos() {
         return LblAAsientos;    
@@ -369,38 +340,6 @@ public class FabricaFrame extends javax.swing.JFrame {
 
     public void setLabel1(JLabel label1) {
         this.label1 = label1;
-    }
-
-    public int getK() {
-        return K;
-    }
-
-    public void setK(int K) {
-        this.K = K;
-    }
-
-    public PAsientos[] getPA() {
-        return PA;
-    }
-
-    public void setPA(PAsientos[] PA) {
-        this.PA = PA;
-    }
-
-    public PPatas[] getPP() {
-        return PP;
-    }
-
-    public void setPP(PPatas[] PP) {
-        this.PP = PP;
-    }
-
-    public Ensamblador[] getEnsam() {
-        return Ensam;
-    }
-
-    public void setEnsam(Ensamblador[] Ensam) {
-        this.Ensam = Ensam;
     }
     
     public FabricaFrame() {
@@ -909,32 +848,24 @@ public class FabricaFrame extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FabricaFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FabricaFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FabricaFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FabricaFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                for(int i=0; i<2; i++){
+                    PP[i]= new PPatas(AlmacenP,Fabrica,SEP,SPP,SCP,K,InP,OutP);
+                    PP[i].start();
+                }
+                System.out.println("HOLA");
+                for(int i=0; i<2; i++){
+                    PA[i]= new PAsientos(AlmacenA,Fabrica,SEA,SPA,SCA,K,InA,OutA);
+                    PA[i].start();
+                }
+                for(int i=0; i<1; i++){
+                    Ensam[i] = new Ensamblador(SES, SPS, SCP, InS, OutS, SEP, SPP, SCP, InP, OutP, SEA, SPA, SCA, InA, OutA, K, Fabrica, AlmacenP, AlmacenA, AlmacenS);
+                    Ensam[i].start();
+                }
+                Crono.start();
+                Geren.start();
                 new FabricaFrame().setVisible(true);
             }
         });
