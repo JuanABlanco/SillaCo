@@ -51,6 +51,34 @@ public class PAsientos extends Productor{
         int num = Integer.parseInt(this.fabrica.getLblAAsientos().getText())+1;
         this.fabrica.getLblAAsientos().setText(Integer.toString(num));
     }
-    
+     public void contratar(int cant){
+        for(int j =0; j<cant; j++){
+            boolean contratado = false;
+            for(int i=0; i<10; i++){
+                if(this.fabrica.getPA()[i] == null && !contratado){
+                    this.fabrica.getPA()[i] = new PAsientos(AlmacenA,fabrica,SE,SP,SC,K,In,Out);
+                    this.fabrica.getPA()[i].start();
+                    int num = Integer.parseInt(this.fabrica.getLblPAsientos().getText())+1;
+                    this.fabrica.getLblPAsientos().setText(Integer.toString(num));
+                } else if(contratado){
+                    break;
+                }
+            }
+        }
+    }
+    public void despedir(int cant){
+        for(int j =0; j<cant; j++){
+            boolean despedido = false;
+            for(int i=0; i<10; i++){
+                if(this.fabrica.getPA()[i] == null && !despedido){
+                    this.fabrica.getPA()[i] = null;
+                    int num = Integer.parseInt(this.fabrica.getLblPAsientos().getText())-1;
+                    this.fabrica.getLblPAsientos().setText(Integer.toString(num));
+                } else if(despedido){
+                    break;
+                }
+            }
+        }
+    }
     
 }

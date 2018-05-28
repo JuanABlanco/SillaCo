@@ -37,7 +37,7 @@ public class PPatas extends Productor{
         try {
                 SP.acquire(1);
                 SE.acquire(1);
-                    this.sleep(1000*getJornada());
+                    this.sleep((1000*getJornada())/getK());
                     producir();
                 SE.release();
                 SC.release();
@@ -51,5 +51,35 @@ public class PPatas extends Productor{
         In = (In+1)%50;
         int num = Integer.parseInt(this.fabrica.getLblAPatas().getText())+1;
         this.fabrica.getLblAPatas().setText(Integer.toString(num));
+    }
+    public void contratar(int cant){
+        for(int j =0; j<cant; j++){
+            boolean contratado = false;
+            for(int i=0; i<10; i++){
+                if(this.fabrica.getPP()[i] == null && !contratado){
+                    this.fabrica.getPP()[i] = new PPatas(AlmacenP,fabrica,SE,SP,SC,K,In,Out);
+                    this.fabrica.getPP()[i].start();
+                    int num = Integer.parseInt(this.fabrica.getLblPPatas().getText())+1;
+                    this.fabrica.getLblPPatas().setText(Integer.toString(num));
+                } else if(contratado){
+                    break;
+                }
+            }
+        }
+    }
+    public void despedir(int cant){
+        for(int j =0; j<cant; j++){
+            boolean despedido = false;
+            for(int i=0; i<10; i++){
+                if(this.fabrica.getPP()[i] == null && !despedido){
+                    this.fabrica.getPP()[i] = new PPatas(AlmacenP,fabrica,SE,SP,SC,K,In,Out);
+                    this.fabrica.getPP()[i].start();
+                    int num = Integer.parseInt(this.fabrica.getLblPPatas().getText())+1;
+                    this.fabrica.getLblPPatas().setText(Integer.toString(num));
+                } else if(despedido){
+                    break;
+                }
+            }
+        }
     }
 }

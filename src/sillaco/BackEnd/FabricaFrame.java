@@ -370,6 +370,38 @@ public class FabricaFrame extends javax.swing.JFrame {
     public void setLabel1(JLabel label1) {
         this.label1 = label1;
     }
+
+    public int getK() {
+        return K;
+    }
+
+    public void setK(int K) {
+        this.K = K;
+    }
+
+    public PAsientos[] getPA() {
+        return PA;
+    }
+
+    public void setPA(PAsientos[] PA) {
+        this.PA = PA;
+    }
+
+    public PPatas[] getPP() {
+        return PP;
+    }
+
+    public void setPP(PPatas[] PP) {
+        this.PP = PP;
+    }
+
+    public Ensamblador[] getEnsam() {
+        return Ensam;
+    }
+
+    public void setEnsam(Ensamblador[] Ensam) {
+        this.Ensam = Ensam;
+    }
     
     public FabricaFrame() {
         initComponents();
