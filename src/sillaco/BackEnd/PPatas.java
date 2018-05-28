@@ -72,9 +72,8 @@ public class PPatas extends Productor{
             boolean despedido = false;
             for(int i=0; i<10; i++){
                 if(this.fabrica.getPP()[i] == null && !despedido){
-                    this.fabrica.getPP()[i] = new PPatas(AlmacenP,fabrica,SE,SP,SC,K,In,Out);
-                    this.fabrica.getPP()[i].start();
-                    int num = Integer.parseInt(this.fabrica.getLblPPatas().getText())+1;
+                    this.fabrica.getPP()[i] = null;
+                    int num = Integer.parseInt(this.fabrica.getLblPPatas().getText())-1;
                     this.fabrica.getLblPPatas().setText(Integer.toString(num));
                 } else if(despedido){
                     break;
