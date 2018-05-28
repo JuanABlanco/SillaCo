@@ -101,19 +101,22 @@ public class Gerente extends Thread{
         this.OutS = OutS;
     }
     
-    public void VerCro(){
-        try {
-            SEC.acquire(1);
-                if(Contador==0){
-                    Despachar();
-                }else if(Contador==30){
-                    Motivar();
-                }else{
-                    Dormir();
-                }
-            SEC.release(1);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Gerente.class.getName()).log(Level.SEVERE, null, ex);
+    @Override
+    public void run(){
+        while(true){
+            try {
+                SEC.acquire(1);
+                    if(Contador==0){
+                        Despachar();
+                    }else if(Contador==30){
+                        Motivar();
+                    }else{
+                        Dormir();
+                    }
+                SEC.release(1);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Gerente.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     

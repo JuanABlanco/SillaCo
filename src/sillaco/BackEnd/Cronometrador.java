@@ -6,13 +6,15 @@
 package sillaco.BackEnd;
 
 import java.util.concurrent.Semaphore;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Juan Arturo Blanco
  */
 public class Cronometrador extends Thread{
-    private int Contador=0;
+    private int Contador;
     private FabricaFrame fabrica;
     private Semaphore SEC;
 
@@ -51,14 +53,29 @@ public class Cronometrador extends Thread{
     // Metodos
     @Override
     public void run(){
-        
+        while(true){
+            try {
+                this.fabrica.getLblCronometrador().setText("Durmiendo");
+                this.sleep(875);
+                this.fabrica.getLblCronometrador().setText("Despierto");
+                
+                SEC.acquire(1);
+                    this.sleep(125);
+                    cronometrar();
+                SEC.release(1);
+                
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Cronometrador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
     public void cronometrar(){
         if (getContador() != 0){
-            
+            setContador(getContador()-1);
         }else{
-            
+            setContador(50);
         }
+        this.fabrica.getLblContador().setText(Integer.toString(getContador()));
     }
 }
