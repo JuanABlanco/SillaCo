@@ -75,6 +75,7 @@ public class Cronometrador extends Thread{
             setContador(getContador()-1);
         }else{
             setContador(50);
+            this.fabrica.setK(1);
         }
         this.fabrica.getLblContador().setText(Integer.toString(getContador()));
     }
