@@ -10,6 +10,7 @@ import sillaco.Cronometrador;
 import java.util.concurrent.Semaphore;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import static sillaco.SillaCo.*;
@@ -410,11 +411,13 @@ public class FabricaFrame extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Asientos");
 
+        LblPAsientos.setForeground(new java.awt.Color(255, 255, 255));
         LblPAsientos.setText("0");
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Patas");
 
+        LblPPatas.setForeground(new java.awt.Color(255, 255, 255));
         LblPPatas.setText("0");
 
         BtnPAContratar.setBackground(new java.awt.Color(0, 0, 0));
@@ -545,6 +548,11 @@ public class FabricaFrame extends javax.swing.JFrame {
         BtnEDespedir.setBackground(new java.awt.Color(0, 0, 0));
         BtnEDespedir.setForeground(new java.awt.Color(255, 255, 255));
         BtnEDespedir.setText("Despedir");
+        BtnEDespedir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnEDespedirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -651,7 +659,7 @@ public class FabricaFrame extends javax.swing.JFrame {
         LblContador.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         LblContador.setForeground(new java.awt.Color(255, 255, 255));
         LblContador.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        LblContador.setText("0");
+        LblContador.setText("50");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -813,11 +821,23 @@ public class FabricaFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BtnPAContratarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPAContratarActionPerformed
-        // TODO add your handling code here:
+        PAsientos o =new PAsientos(AlmacenA,Fabrica,SEA,SPA,SCA,K,InA,OutA);
+        if(!"".equals(getTfPAContratar().getText()) && Integer.parseInt(getTfPAContratar().getText()) < 10 && Integer.parseInt(getTfPAContratar().getText())>0){
+            o.contratar(Integer.parseInt(getTfPAContratar().getText()));
+        } else {
+            JOptionPane.showMessageDialog(null,"This is not going to go the way you think! ");
+        }
+        
     }//GEN-LAST:event_BtnPAContratarActionPerformed
 
     private void BtnEContratarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEContratarActionPerformed
-        // TODO add your handling code here:
+        Ensamblador o = new Ensamblador(SES, SPS, SCP, InS, OutS, SEP, SPP, SCP, InP, OutP, SEA, SPA, SCA, InA, OutA, K, Fabrica, AlmacenP, AlmacenA, AlmacenS);
+         if(!"".equals(getTfEContratar().getText()) && Integer.parseInt(getTfEContratar().getText()) < 5 && Integer.parseInt(getTfEContratar().getText())>0){
+            o.contratar(Integer.parseInt(getTfEContratar().getText()));
+         }else{
+            JOptionPane.showMessageDialog(null,"This is not going to go the way you think! ");
+         }
+         
     }//GEN-LAST:event_BtnEContratarActionPerformed
 
     private void BtnPausaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPausaActionPerformed
@@ -825,7 +845,13 @@ public class FabricaFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnPausaActionPerformed
 
     private void BtnPADespedirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPADespedirActionPerformed
-        // TODO add your handling code here:
+        PAsientos o =new PAsientos(AlmacenA,Fabrica,SEA,SPA,SCA,K,InA,OutA);
+        if(!"".equals(getTfPADespedir().getText()) && Integer.parseInt(getTfPADespedir().getText()) < 10 && Integer.parseInt(getTfPADespedir().getText())>0){
+            o.despedir(Integer.parseInt(getTfPADespedir().getText()));
+        } else {
+            JOptionPane.showMessageDialog(null,"This is not going to go the way you think! ");
+        }
+        
     }//GEN-LAST:event_BtnPADespedirActionPerformed
 
     private void TfPAContratarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TfPAContratarActionPerformed
@@ -833,16 +859,38 @@ public class FabricaFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_TfPAContratarActionPerformed
 
     private void BtnPPContratarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPPContratarActionPerformed
-        // TODO add your handling code here:
+        PPatas o = new PPatas(AlmacenP,Fabrica,SEP,SPP,SCP,K,InP,OutP);
+        if(!"".equals(getTfPPContratar().getText()) && Integer.parseInt(getTfPPContratar().getText()) < 10 && Integer.parseInt(getTfPPContratar().getText())>0){
+            o.contratar(Integer.parseInt(getTfPPContratar().getText()));
+         }else{
+             JOptionPane.showMessageDialog(null,"This is not going to go the way you think! ");
+         }
+        
     }//GEN-LAST:event_BtnPPContratarActionPerformed
 
     private void BtnPPDespedir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPPDespedir1ActionPerformed
-        // TODO add your handling code here:
+        PPatas o = new PPatas(AlmacenP,Fabrica,SEP,SPP,SCP,K,InP,OutP);
+        if(!"".equals(getTfPPDespedir1().getText()) && Integer.parseInt(getTfPPDespedir1().getText()) < 10 && Integer.parseInt(getTfPPDespedir1().getText())>0){
+            o.despedir(Integer.parseInt(getTfPPDespedir1().getText()));
+         }else{
+             JOptionPane.showMessageDialog(null,"This is not going to go the way you think! ");
+         }
+       
     }//GEN-LAST:event_BtnPPDespedir1ActionPerformed
 
     private void TfPPContratarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TfPPContratarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TfPPContratarActionPerformed
+
+    private void BtnEDespedirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEDespedirActionPerformed
+        Ensamblador o = new Ensamblador(SES, SPS, SCP, InS, OutS, SEP, SPP, SCP, InP, OutP, SEA, SPA, SCA, InA, OutA, K, Fabrica, AlmacenP, AlmacenA, AlmacenS);
+        if(!"".equals(getTfEDespedir().getText()) && Integer.parseInt(getTfEDespedir().getText()) < 5 && Integer.parseInt(getTfEDespedir().getText())>0){
+            o.despedir(Integer.parseInt(getTfEDespedir().getText()));
+         }else{
+            JOptionPane.showMessageDialog(null,"This is not going to go the way you think! ");
+         }
+        
+    }//GEN-LAST:event_BtnEDespedirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -851,21 +899,6 @@ public class FabricaFrame extends javax.swing.JFrame {
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                for(int i=0; i<2; i++){
-                    PP[i]= new PPatas(AlmacenP,Fabrica,SEP,SPP,SCP,K,InP,OutP);
-                    PP[i].start();
-                }
-                System.out.println("HOLA");
-                for(int i=0; i<2; i++){
-                    PA[i]= new PAsientos(AlmacenA,Fabrica,SEA,SPA,SCA,K,InA,OutA);
-                    PA[i].start();
-                }
-                for(int i=0; i<1; i++){
-                    Ensam[i] = new Ensamblador(SES, SPS, SCP, InS, OutS, SEP, SPP, SCP, InP, OutP, SEA, SPA, SCA, InA, OutA, K, Fabrica, AlmacenP, AlmacenA, AlmacenS);
-                    Ensam[i].start();
-                }
-                Crono.start();
-                Geren.start();
                 new FabricaFrame().setVisible(true);
             }
         });

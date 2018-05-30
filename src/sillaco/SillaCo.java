@@ -18,7 +18,6 @@ public class SillaCo {
     static public int AlmacenP []= new int[50];    
     static public int AlmacenA []= new int[40]; 
     //Constantes
-    static public int Contador=50;
     static public int K=1;
     //Semaforos del Almacen de Patas y sus apuntadores 
     static public Semaphore SEP= new Semaphore(1);
@@ -46,13 +45,31 @@ public class SillaCo {
     // Frames
     public static FabricaFrame Fabrica = new FabricaFrame();
     // Otros trabajadores
-    static public Cronometrador Crono = new Cronometrador(K,Contador,SEC,Fabrica);
-    static public Gerente Geren = new Gerente(Fabrica,Contador, AlmacenS, K, SES,SPS,SEC,OutS,InS);
+    static public Cronometrador Crono = new Cronometrador(K,SEC,Fabrica);
+    static public Gerente Geren = new Gerente(Fabrica,Crono, AlmacenS, K, SES,SPS,SEC,OutS,InS);
 
     
     public static void main(String[] args) {
         Fabrica.setVisible(true);
         Fabrica.setDefaultCloseOperation(Fabrica.EXIT_ON_CLOSE);
+        
+        for(int i=0; i<2; i++){
+            PP[i]= new PPatas(AlmacenP,Fabrica,SEP,SPP,SCP,K,InP,OutP);
+            PP[i].start();
+            Fabrica.getLblPPatas().setText("2");
+        }
+        for(int i=0; i<2; i++){
+            PA[i]= new PAsientos(AlmacenA,Fabrica,SEA,SPA,SCA,K,InA,OutA);
+            PA[i].start();
+            Fabrica.getLblPAsientos().setText("2");
+        }
+        for(int i=0; i<1; i++){
+            Ensam[i] = new Ensamblador(SES, SPS, SCP, InS, OutS, SEP, SPP, SCP, InP, OutP, SEA, SPA, SCA, InA, OutA, K, Fabrica, AlmacenP, AlmacenA, AlmacenS);
+            Ensam[i].start();
+            Fabrica.getLblEnsambladores().setText("1");
+        }
+        Crono.start();
+        Geren.start();
     }
     
 }

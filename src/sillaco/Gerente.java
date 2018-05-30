@@ -17,17 +17,17 @@ import java.util.logging.Logger;
  */
 public class Gerente extends Thread{
     private FabricaFrame fabrica;
-    private int Contador;
     private int AlmacenS [];
     private int K; 
     private Semaphore SES;
     private Semaphore SPS;
     private Semaphore SEC;
+    private Cronometrador crono;
     private int OutS;
     private int InS;
 
-    public Gerente(FabricaFrame fabrica,int Contador, int[] AlmacenS, int K, Semaphore SES, Semaphore SPS, Semaphore SEC, int OutS, int InS) {
-        this.Contador = Contador;
+    public Gerente(FabricaFrame fabrica,Cronometrador crono, int[] AlmacenS, int K, Semaphore SES, Semaphore SPS, Semaphore SEC, int OutS, int InS) {
+        this.crono=crono;
         this.AlmacenS = AlmacenS;
         this.K = K;
         this.SES = SES;
@@ -38,20 +38,20 @@ public class Gerente extends Thread{
         this.fabrica = fabrica;
     }
 
+    public Cronometrador getCrono() {
+        return crono;
+    }
+
+    public void setCrono(Cronometrador crono) {
+        this.crono = crono;
+    }
+
     public int getInS() {
         return InS;
     }
 
     public void setInS(int InS) {
         this.InS = InS;
-    }
-
-    public int getContador() {
-        return Contador;
-    }
-
-    public void setContador(int Contador) {
-        this.Contador = Contador;
     }
 
     public int[] getAlmacenS() {
@@ -107,14 +107,16 @@ public class Gerente extends Thread{
         while(true){
             try {
                 SEC.acquire(1);
-                    if(Contador==0){
+                    if(getCrono().getContador()==0){
                         Despachar();
-                    }else if(Contador==30){
+                        getCrono().setContador(50);
+                        this.fabrica.getLblContador().setText(Integer.toString(getCrono().getContador()));
+                        K=1;
+                    }else if(getCrono().getContador()<=30){
                         Motivar();
-                    }else{
-                        Dormir();
                     }
                 SEC.release(1);
+                Dormir();
             } catch (InterruptedException ex) {
                 Logger.getLogger(Gerente.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -146,7 +148,7 @@ public class Gerente extends Thread{
         try {
             Random r = new Random();
             this.fabrica.getjLabel13().setText("Durmiendo");
-            this.sleep(1000*(r.nextInt(18)+7));
+            this.sleep(42*(r.nextInt(18)+7));
             this.fabrica.getjLabel13().setText("Despierto");
         } catch (InterruptedException ex) {
             Logger.getLogger(Gerente.class.getName()).log(Level.SEVERE, null, ex);

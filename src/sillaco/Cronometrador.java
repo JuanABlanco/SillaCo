@@ -19,11 +19,12 @@ public class Cronometrador extends Thread{
     private Semaphore SEC;
     private int K;
 
-    public Cronometrador(int K,int Contador, Semaphore SEC, FabricaFrame fabrica) {
-        this.Contador = Contador;
+    public Cronometrador(int K,Semaphore SEC, FabricaFrame fabrica) {
+        this.Contador = 50;
         this.SEC = SEC;
         this.fabrica = fabrica;
         this.K = K;
+        
     }
     // Setters y Getters
     
@@ -61,10 +62,9 @@ public class Cronometrador extends Thread{
                 this.sleep(875);
                 this.fabrica.getLblCronometrador().setText("Despierto");
                 
-                SEC.acquire(1);
-                    this.sleep(125);
+                SEC.acquire();
                     cronometrar();
-                SEC.release(1);
+                SEC.release();
                 
             } catch (InterruptedException ex) {
                 Logger.getLogger(Cronometrador.class.getName()).log(Level.SEVERE, null, ex);
@@ -73,12 +73,14 @@ public class Cronometrador extends Thread{
     }
     
     public void cronometrar(){
+        try {
+            this.sleep(125);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Cronometrador.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (getContador() != 0){
             setContador(getContador()-1);
-        }else{
-            setContador(50);
-            K=1;
+            this.fabrica.getLblContador().setText(Integer.toString(Contador));
         }
-        this.fabrica.getLblContador().setText(Integer.toString(getContador()));
     }
 }

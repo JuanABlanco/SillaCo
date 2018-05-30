@@ -38,7 +38,7 @@ public class PAsientos extends Productor{
             try {
                 SP.acquire(1);
                 SE.acquire(1);
-                    this.sleep((100*getJornada())/getK());
+                    this.sleep((1000*getJornada())/getK());
                     producir();
                 SE.release();
                 SC.release();
@@ -60,6 +60,7 @@ public class PAsientos extends Productor{
                 if(PA[i] == null && !contratado){
                     PA[i] = new PAsientos(AlmacenA,fabrica,SE,SP,SC,K,In,Out);
                     PA[i].start();
+                    contratado = true;
                     int num = Integer.parseInt(this.fabrica.getLblPAsientos().getText())+1;
                     this.fabrica.getLblPAsientos().setText(Integer.toString(num));
                 } else if(contratado){
@@ -74,6 +75,7 @@ public class PAsientos extends Productor{
             for(int i=0; i<10; i++){
                 if(PA[i] == null && !despedido){
                     PA[i] = null;
+                    despedido = true;
                     int num = Integer.parseInt(this.fabrica.getLblPAsientos().getText())-1;
                     this.fabrica.getLblPAsientos().setText(Integer.toString(num));
                 } else if(despedido){

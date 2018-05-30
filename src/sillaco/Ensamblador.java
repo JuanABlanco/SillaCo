@@ -67,30 +67,32 @@ public class Ensamblador extends Thread{
     //Metodos
     @Override
     public void run(){
-        try {
-            
-            SCA.acquire(1);
-            SEA.acquire(1);
-                consumirA();
-            SEA.release();
-            SPA.release();
-            
-            SCP.acquire(4);
-            SEP.acquire(1);
-                consumirP();
-            SEP.release();
-            SPP.release(4);
-            
-            this.sleep(200/K);
-            
-            SPS.acquire(1);
-            SES.acquire(1);
-                ensamblar();
-            SES.release();
-            SCS.release();
-            
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Ensamblador.class.getName()).log(Level.SEVERE, null, ex);
+        while(true){
+            try {
+
+                SCA.acquire(1);
+                SEA.acquire(1);
+                    consumirA();
+                SEA.release();
+                SPA.release();
+
+                SCP.acquire(4);
+                SEP.acquire(1);
+                    consumirP();
+                SEP.release();
+                SPP.release(4);
+
+                this.sleep(2000/K);
+
+                SPS.acquire(1);
+                SES.acquire(1);
+                    ensamblar();
+                SES.release();
+                SCS.release();
+
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Ensamblador.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     public void ensamblar(){
@@ -100,24 +102,30 @@ public class Ensamblador extends Thread{
         this.fabrica.getLblASillas().setText(Integer.toString(num));
     }
     public void consumirP (){
-        AlmacenP[InP]=0;
-        InP = (InP+1)%50;
-        int num = Integer.parseInt(this.fabrica.getLblAPatas().getText())-1;
+        for(int i=0; i<4; i++){
+            AlmacenP[OutP]=0;
+            OutP = (OutP+1)%50;
+        }
+        int num = Integer.parseInt(this.fabrica.getLblAPatas().getText())-4;
         this.fabrica.getLblAPatas().setText(Integer.toString(num));
     }
     public void consumirA (){
-        AlmacenA[InA]=0;
-        InA = (InA+1)%40;
+        for(int i=0; i<4; i++){
+            AlmacenA[OutA]=0;
+            OutA = (OutA+1)%40;
+        }
+        
         int num = Integer.parseInt(this.fabrica.getLblAAsientos().getText())-1;
         this.fabrica.getLblAAsientos().setText(Integer.toString(num));
     }
     public void contratar(int cant){
         for(int j =0; j<cant; j++){
             boolean contratado = false;
-            for(int i=0; i<10; i++){
+            for(int i=0; i<5; i++){
                 if(Ensam[i] == null && !contratado){  
                     Ensam[i] = new Ensamblador(SES,SPS,SCS,InS,OutS,SEP,SPP,SCP,InP,OutP,SEA,SPA,SCA,InA,OutA,K, fabrica,AlmacenP,AlmacenA,AlmacenS);
                     Ensam[i].start();
+                    contratado = true;
                     int num = Integer.parseInt(this.fabrica.getLblEnsambladores().getText())+1;
                     this.fabrica.getLblEnsambladores().setText(Integer.toString(num));
                 } else if(contratado){
@@ -132,6 +140,7 @@ public class Ensamblador extends Thread{
             for(int i=0; i<10; i++){
                 if(Ensam[i] == null && !contratado){  
                     Ensam[i] = null;
+                    contratado = true;
                     int num = Integer.parseInt(this.fabrica.getLblEnsambladores().getText())-1;
                     this.fabrica.getLblEnsambladores().setText(Integer.toString(num));
                 } else if(contratado){

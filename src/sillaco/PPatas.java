@@ -39,7 +39,7 @@ public class PPatas extends Productor{
         try {
                 SP.acquire(1);
                 SE.acquire(1);
-                    this.sleep((100*getJornada())/getK());
+                    this.sleep((1000*getJornada())/getK());
                     producir();
                 SE.release();
                 SC.release();
@@ -61,6 +61,7 @@ public class PPatas extends Productor{
                 if(PP[i] == null && !contratado){
                     PP[i] = new PPatas(AlmacenP,fabrica,SE,SP,SC,K,In,Out);
                     PP[i].start();
+                    contratado=true;
                     int num = Integer.parseInt(this.fabrica.getLblPPatas().getText())+1;
                     this.fabrica.getLblPPatas().setText(Integer.toString(num));
                 } else if(contratado){
@@ -75,6 +76,7 @@ public class PPatas extends Productor{
             for(int i=0; i<10; i++){
                 if(PP[i] == null && !despedido){
                     PP[i] = null;
+                    despedido=true;
                     int num = Integer.parseInt(this.fabrica.getLblPPatas().getText())-1;
                     this.fabrica.getLblPPatas().setText(Integer.toString(num));
                 } else if(despedido){
