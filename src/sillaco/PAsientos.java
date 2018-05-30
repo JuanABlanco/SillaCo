@@ -18,6 +18,7 @@ import static sillaco.SillaCo.PA;
 public class PAsientos extends Productor{
     
     private int AlmacenA[]; 
+    volatile boolean ejecutar = true;
     
     public PAsientos(int AlmacenA[],FabricaFrame fabrica, Semaphore SE, Semaphore SP, Semaphore SC, int K, int In, int Out) {
         super(fabrica, SE, SP, SC, 3, 1, K, In, Out);
@@ -34,7 +35,7 @@ public class PAsientos extends Productor{
     //Metodos
     @Override
     public void run(){
-        while(true){
+        while(ejecutar){
             try {
                 SP.acquire(1);
                 SE.acquire(1);
@@ -73,7 +74,8 @@ public class PAsientos extends Productor{
         for(int j =0; j<cant; j++){
             boolean despedido = false;
             for(int i=0; i<10; i++){
-                if(PA[i] == null && !despedido){
+                if(PA[i] != null && !despedido){
+                    PA[i].ejecutar = false;
                     PA[i] = null;
                     despedido = true;
                     int num = Integer.parseInt(this.fabrica.getLblPAsientos().getText())-1;

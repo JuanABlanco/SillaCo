@@ -17,7 +17,8 @@ import static sillaco.SillaCo.PP;
  */
 public class PPatas extends Productor{
     private int AlmacenP[];
-
+    volatile boolean ejecutar = true;
+    
     public PPatas(int[] AlmacenP, FabricaFrame fabrica, Semaphore SE, Semaphore SP, Semaphore SC, int K, int In, int Out) {
         super(fabrica, SE, SP, SC, 1, 1, K, In, Out);
         this.AlmacenP = AlmacenP;
@@ -35,7 +36,7 @@ public class PPatas extends Productor{
     //Metodos
     @Override
     public void run(){
-        while(true){
+        while(ejecutar){
         try {
                 SP.acquire(1);
                 SE.acquire(1);
@@ -74,7 +75,8 @@ public class PPatas extends Productor{
         for(int j =0; j<cant; j++){
             boolean despedido = false;
             for(int i=0; i<10; i++){
-                if(PP[i] == null && !despedido){
+                if(PP[i] != null && !despedido){
+                    PP[i].ejecutar = false;
                     PP[i] = null;
                     despedido=true;
                     int num = Integer.parseInt(this.fabrica.getLblPPatas().getText())-1;

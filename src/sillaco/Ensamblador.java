@@ -39,6 +39,8 @@ public class Ensamblador extends Thread{
     private int AlmacenP[];
     private int AlmacenA[];
     private int AlmacenS[];
+    
+    volatile boolean ejecutar = true;
 
     public Ensamblador(Semaphore SES, Semaphore SPS, Semaphore SCS, int InS, int OutS, Semaphore SEP, Semaphore SPP, Semaphore SCP, int InP, int OutP, Semaphore SEA, Semaphore SPA, Semaphore SCA, int InA, int OutA, int K, FabricaFrame fabrica, int[] AlmacenP, int[] AlmacenA, int[] AlmacenS) {
         this.SES = SES;
@@ -67,7 +69,7 @@ public class Ensamblador extends Thread{
     //Metodos
     @Override
     public void run(){
-        while(true){
+        while(ejecutar){
             try {
 
                 SCA.acquire(1);
@@ -138,7 +140,8 @@ public class Ensamblador extends Thread{
         for(int j =0; j<cant; j++){
             boolean contratado = false;
             for(int i=0; i<10; i++){
-                if(Ensam[i] == null && !contratado){  
+                if(Ensam[i] != null && !contratado){ 
+                    Ensam[i].ejecutar = false;
                     Ensam[i] = null;
                     contratado = true;
                     int num = Integer.parseInt(this.fabrica.getLblEnsambladores().getText())-1;
