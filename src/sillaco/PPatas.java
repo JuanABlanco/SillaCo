@@ -18,6 +18,7 @@ import static sillaco.SillaCo.PP;
 public class PPatas extends Productor{
     private int AlmacenP[];
     volatile boolean ejecutar = true;
+    private boolean pausa=false;
     
     public PPatas(int[] AlmacenP, FabricaFrame fabrica, Semaphore SE, Semaphore SP, Semaphore SC, int K, int In, int Out) {
         super(fabrica, SE, SP, SC, 1, 1, K, In, Out);
@@ -39,11 +40,17 @@ public class PPatas extends Productor{
         while(ejecutar){
         try {
                 SP.acquire(1);
-                SE.acquire(1);
-                    this.sleep((1000*getJornada())/getK());
+                SE.acquire(1); 
                     producir();
                 SE.release();
                 SC.release();
+                this.sleep((1000*getJornada())/getK());
+                synchronized(this){
+                    if (pausa)
+                        this.wait();
+                        
+                }
+
             } catch (InterruptedException ex) {
                 Logger.getLogger(PPatas.class.getName()).log(Level.SEVERE, null, ex);
             }    
@@ -87,4 +94,11 @@ public class PPatas extends Productor{
             }
         }
     }
+    public synchronized void pausa(){
+        this.pausa=true;
+    }
+    public synchronized void reanudar(){
+        this.pausa=false;
+        notify();
+    } 
 }

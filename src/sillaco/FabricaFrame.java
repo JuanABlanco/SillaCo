@@ -21,7 +21,7 @@ import static sillaco.SillaCo.*;
  * @author Juan Arturo Blanco
  */
 public class FabricaFrame extends javax.swing.JFrame {
-
+    
     //Setters y getters
     public JLabel getLblAAsientos() {
         return LblAAsientos;    
@@ -397,6 +397,7 @@ public class FabricaFrame extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         BtnPausa = new javax.swing.JButton();
+        BtnReanudar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
@@ -740,6 +741,13 @@ public class FabricaFrame extends javax.swing.JFrame {
             }
         });
 
+        BtnReanudar.setText("Reanudar");
+        BtnReanudar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnReanudarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -755,7 +763,9 @@ public class FabricaFrame extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(87, 87, 87)
-                                .addComponent(BtnPausa))
+                                .addComponent(BtnPausa)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(BtnReanudar))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -812,7 +822,9 @@ public class FabricaFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(BtnPausa)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(BtnPausa)
+                            .addComponent(BtnReanudar))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -822,36 +834,36 @@ public class FabricaFrame extends javax.swing.JFrame {
 
     private void BtnPAContratarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPAContratarActionPerformed
         PAsientos o =new PAsientos(AlmacenA,Fabrica,SEA,SPA,SCA,K,InA,OutA);
-        if(!"".equals(getTfPAContratar().getText()) && Integer.parseInt(getTfPAContratar().getText()) < 10 && Integer.parseInt(getTfPAContratar().getText())>0){
+        if(!"".equals(getTfPAContratar().getText()) && Integer.parseInt(getTfPAContratar().getText()) < 10 && Integer.parseInt(getTfPAContratar().getText())>0 && Integer.parseInt(getTfPAContratar().getText())<= 10-Integer.parseInt(getLblPAsientos().getText())){
             o.contratar(Integer.parseInt(getTfPAContratar().getText()));
         } else {
             JOptionPane.showMessageDialog(null,"This is not going to go the way you think! ");
         }
-        
+        getTfPAContratar().setText("");
     }//GEN-LAST:event_BtnPAContratarActionPerformed
 
     private void BtnEContratarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEContratarActionPerformed
         Ensamblador o = new Ensamblador(SES, SPS, SCP, InS, OutS, SEP, SPP, SCP, InP, OutP, SEA, SPA, SCA, InA, OutA, K, Fabrica, AlmacenP, AlmacenA, AlmacenS);
-         if(!"".equals(getTfEContratar().getText()) && Integer.parseInt(getTfEContratar().getText()) < 5 && Integer.parseInt(getTfEContratar().getText())>0){
+         if(!"".equals(getTfEContratar().getText()) && Integer.parseInt(getTfEContratar().getText()) < 5 && Integer.parseInt(getTfEContratar().getText())>0 && Integer.parseInt(getTfEContratar().getText()) <=  5-Integer.parseInt(getLblEnsambladores().getText())){
             o.contratar(Integer.parseInt(getTfEContratar().getText()));
          }else{
             JOptionPane.showMessageDialog(null,"This is not going to go the way you think! ");
          }
-         
+         getTfEContratar().setText("");
     }//GEN-LAST:event_BtnEContratarActionPerformed
 
     private void BtnPausaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPausaActionPerformed
-        // TODO add your handling code here:
+           sillaco.SillaCo.pausar();
     }//GEN-LAST:event_BtnPausaActionPerformed
 
     private void BtnPADespedirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPADespedirActionPerformed
         PAsientos o =new PAsientos(AlmacenA,Fabrica,SEA,SPA,SCA,K,InA,OutA);
-        if(!"".equals(getTfPADespedir().getText()) && Integer.parseInt(getTfPADespedir().getText()) < 10 && Integer.parseInt(getTfPADespedir().getText())>0){
+        if(!"".equals(getTfPADespedir().getText()) && Integer.parseInt(getTfPADespedir().getText()) < 10 && Integer.parseInt(getTfPADespedir().getText())>0 && Integer.parseInt(getTfPADespedir().getText()) < Integer.parseInt(getLblPAsientos().getText())  ){
             o.despedir(Integer.parseInt(getTfPADespedir().getText()));
         } else {
             JOptionPane.showMessageDialog(null,"This is not going to go the way you think! ");
         }
-        
+        getTfPADespedir().setText("");
     }//GEN-LAST:event_BtnPADespedirActionPerformed
 
     private void TfPAContratarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TfPAContratarActionPerformed
@@ -860,22 +872,22 @@ public class FabricaFrame extends javax.swing.JFrame {
 
     private void BtnPPContratarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPPContratarActionPerformed
         PPatas o = new PPatas(AlmacenP,Fabrica,SEP,SPP,SCP,K,InP,OutP);
-        if(!"".equals(getTfPPContratar().getText()) && Integer.parseInt(getTfPPContratar().getText()) < 10 && Integer.parseInt(getTfPPContratar().getText())>0){
+        if(!"".equals(getTfPPContratar().getText()) && Integer.parseInt(getTfPPContratar().getText()) < 10 && Integer.parseInt(getTfPPContratar().getText())>0 && Integer.parseInt(getTfPPContratar().getText()) <= 10-Integer.parseInt(getLblPPatas().getText())){
             o.contratar(Integer.parseInt(getTfPPContratar().getText()));
          }else{
              JOptionPane.showMessageDialog(null,"This is not going to go the way you think! ");
          }
-        
+        getTfPPContratar().setText("");
     }//GEN-LAST:event_BtnPPContratarActionPerformed
 
     private void BtnPPDespedir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPPDespedir1ActionPerformed
         PPatas o = new PPatas(AlmacenP,Fabrica,SEP,SPP,SCP,K,InP,OutP);
-        if(!"".equals(getTfPPDespedir1().getText()) && Integer.parseInt(getTfPPDespedir1().getText()) < 10 && Integer.parseInt(getTfPPDespedir1().getText())>0){
+        if(!"".equals(getTfPPDespedir1().getText()) && Integer.parseInt(getTfPPDespedir1().getText()) < 10 && Integer.parseInt(getTfPPDespedir1().getText())>0 && Integer.parseInt(getTfPPDespedir1().getText())<=Integer.parseInt(getLblPPatas().getText())){
             o.despedir(Integer.parseInt(getTfPPDespedir1().getText()));
          }else{
              JOptionPane.showMessageDialog(null,"This is not going to go the way you think! ");
          }
-       
+       getTfPPDespedir1().setText("");
     }//GEN-LAST:event_BtnPPDespedir1ActionPerformed
 
     private void TfPPContratarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TfPPContratarActionPerformed
@@ -884,13 +896,17 @@ public class FabricaFrame extends javax.swing.JFrame {
 
     private void BtnEDespedirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEDespedirActionPerformed
         Ensamblador o = new Ensamblador(SES, SPS, SCP, InS, OutS, SEP, SPP, SCP, InP, OutP, SEA, SPA, SCA, InA, OutA, K, Fabrica, AlmacenP, AlmacenA, AlmacenS);
-        if(!"".equals(getTfEDespedir().getText()) && Integer.parseInt(getTfEDespedir().getText()) < 5 && Integer.parseInt(getTfEDespedir().getText())>0){
+        if(!"".equals(getTfEDespedir().getText()) && Integer.parseInt(getTfEDespedir().getText()) < 5 && Integer.parseInt(getTfEDespedir().getText())>0 && Integer.parseInt(getTfEDespedir().getText()) <= Integer.parseInt(getLblEnsambladores().getText())){
             o.despedir(Integer.parseInt(getTfEDespedir().getText()));
          }else{
             JOptionPane.showMessageDialog(null,"This is not going to go the way you think! ");
          }
-        
+        getTfEDespedir().setText("");
     }//GEN-LAST:event_BtnEDespedirActionPerformed
+
+    private void BtnReanudarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnReanudarActionPerformed
+        sillaco.SillaCo.reanudar();
+    }//GEN-LAST:event_BtnReanudarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -912,6 +928,7 @@ public class FabricaFrame extends javax.swing.JFrame {
     private javax.swing.JButton BtnPPContratar;
     private javax.swing.JButton BtnPPDespedir1;
     private javax.swing.JButton BtnPausa;
+    private javax.swing.JButton BtnReanudar;
     private javax.swing.JLabel LblAAsientos;
     private javax.swing.JLabel LblAPatas;
     private javax.swing.JLabel LblASillas;

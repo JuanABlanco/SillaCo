@@ -19,6 +19,7 @@ public class PAsientos extends Productor{
     
     private int AlmacenA[]; 
     volatile boolean ejecutar = true;
+    private boolean pausa=false;
     
     public PAsientos(int AlmacenA[],FabricaFrame fabrica, Semaphore SE, Semaphore SP, Semaphore SC, int K, int In, int Out) {
         super(fabrica, SE, SP, SC, 3, 1, K, In, Out);
@@ -38,11 +39,16 @@ public class PAsientos extends Productor{
         while(ejecutar){
             try {
                 SP.acquire(1);
-                SE.acquire(1);
-                    this.sleep((1000*getJornada())/getK());
+                SE.acquire(1);                   
                     producir();
                 SE.release();
                 SC.release();
+                PAsientos.sleep((1000*getJornada())/getK());
+                synchronized(this){
+                    if (pausa)
+                        this.wait();
+                        
+                }
             } catch (InterruptedException ex) {
                 Logger.getLogger(PAsientos.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -86,5 +92,12 @@ public class PAsientos extends Productor{
             }
         }
     }
+    public synchronized void pausa(){
+        this.pausa=true;
+    }
+    public synchronized void reanudar(){
+        this.pausa=false;
+        notify();
+    }    
     
 }

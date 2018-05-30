@@ -41,6 +41,7 @@ public class Ensamblador extends Thread{
     private int AlmacenS[];
     
     volatile boolean ejecutar = true;
+    private boolean pausa=false;
 
     public Ensamblador(Semaphore SES, Semaphore SPS, Semaphore SCS, int InS, int OutS, Semaphore SEP, Semaphore SPP, Semaphore SCP, int InP, int OutP, Semaphore SEA, Semaphore SPA, Semaphore SCA, int InA, int OutA, int K, FabricaFrame fabrica, int[] AlmacenP, int[] AlmacenA, int[] AlmacenS) {
         this.SES = SES;
@@ -71,18 +72,19 @@ public class Ensamblador extends Thread{
     public void run(){
         while(ejecutar){
             try {
-
+                SCP.acquire(4);
+                SEP.acquire(1);
+                    consumirP();
+                SEP.release();
+                SPP.release(4);
+                
                 SCA.acquire(1);
                 SEA.acquire(1);
                     consumirA();
                 SEA.release();
                 SPA.release();
 
-                SCP.acquire(4);
-                SEP.acquire(1);
-                    consumirP();
-                SEP.release();
-                SPP.release(4);
+                
 
                 this.sleep(2000/K);
 
@@ -91,7 +93,11 @@ public class Ensamblador extends Thread{
                     ensamblar();
                 SES.release();
                 SCS.release();
-
+                synchronized(this){
+                    if (pausa)
+                        this.wait();
+                        
+                }
             } catch (InterruptedException ex) {
                 Logger.getLogger(Ensamblador.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -152,4 +158,11 @@ public class Ensamblador extends Thread{
             }
         }
     }
+    public synchronized void pausa(){
+        this.pausa=true;
+    }
+    public synchronized void reanudar(){
+        this.pausa=false;
+        notify();
+    } 
 }

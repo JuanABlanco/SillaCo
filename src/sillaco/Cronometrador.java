@@ -18,6 +18,7 @@ public class Cronometrador extends Thread{
     private FabricaFrame fabrica;
     private Semaphore SEC;
     private int K;
+    private boolean pausa=false;
 
     public Cronometrador(int K,Semaphore SEC, FabricaFrame fabrica) {
         this.Contador = 50;
@@ -66,6 +67,11 @@ public class Cronometrador extends Thread{
                     cronometrar();
                 SEC.release();
                 
+                synchronized(this){
+                    if (pausa)
+                        this.wait();
+                        
+                }
             } catch (InterruptedException ex) {
                 Logger.getLogger(Cronometrador.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -83,4 +89,11 @@ public class Cronometrador extends Thread{
             this.fabrica.getLblContador().setText(Integer.toString(Contador));
         }
     }
+    public synchronized void pausa(){
+        this.pausa=true;
+    }
+    public synchronized void reanudar(){
+        this.pausa=false;
+        notify();
+    } 
 }

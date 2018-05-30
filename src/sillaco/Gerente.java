@@ -25,6 +25,7 @@ public class Gerente extends Thread{
     private Cronometrador crono;
     private int OutS;
     private int InS;
+    private boolean pausa = false;
 
     public Gerente(FabricaFrame fabrica,Cronometrador crono, int[] AlmacenS, int K, Semaphore SES, Semaphore SPS, Semaphore SEC, int OutS, int InS) {
         this.crono=crono;
@@ -117,6 +118,11 @@ public class Gerente extends Thread{
                     }
                 SEC.release(1);
                 Dormir();
+                synchronized(this){
+                    if (pausa)
+                        this.wait();
+                        
+                }
             } catch (InterruptedException ex) {
                 Logger.getLogger(Gerente.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -157,4 +163,11 @@ public class Gerente extends Thread{
     public void Motivar(){
         this.K=2;
     }
+    public synchronized void pausa(){
+        this.pausa=true;
+    }
+    public synchronized void reanudar(){
+        this.pausa=false;
+        notify();
+    } 
 }

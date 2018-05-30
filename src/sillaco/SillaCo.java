@@ -71,5 +71,38 @@ public class SillaCo {
         Crono.start();
         Geren.start();
     }
+    public static void pausar(){
+        for(int i=0; i<10 ; i++){
+            if(PP[i] != null)
+            PP[i].pausa();
+        }
+        for(int i=0; i<10 ; i++){
+            if(PA[i] != null)
+            PA[i].pausa();
+        }
+        for (int i = 0; i < 5; i++) {
+            if(Ensam[i]!=null)
+            Ensam[i].pausa();
+        }
+        Crono.pausa();
+        Geren.pausa();
+    }
+    public static void reanudar(){
+        for(int i=0; i<10 ; i++){
+            if(PP[i] != null)
+            PP[i].reanudar();
+        }
+        for(int i=0; i<10 ; i++){
+            if(PA[i] != null)
+            PA[i].reanudar();
+        }
+        for (int i = 0; i < 5; i++) {
+            if(Ensam[i]!=null)
+            Ensam[i].reanudar();
+        }
+        Crono.reanudar();
+        Geren.reanudar();
+    }
+        
     
 }
