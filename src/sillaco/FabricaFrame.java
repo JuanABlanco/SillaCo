@@ -858,7 +858,7 @@ public class FabricaFrame extends javax.swing.JFrame {
 
     private void BtnPADespedirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPADespedirActionPerformed
         PAsientos o =new PAsientos(AlmacenA,Fabrica,SEA,SPA,SCA,K,InA,OutA);
-        if(!"".equals(getTfPADespedir().getText()) && Integer.parseInt(getTfPADespedir().getText()) < 10 && Integer.parseInt(getTfPADespedir().getText())>0 && Integer.parseInt(getTfPADespedir().getText()) <=Integer.parseInt(getLblPAsientos().getText())  ){
+        if(!"".equals(getTfPADespedir().getText()) && Integer.parseInt(getTfPADespedir().getText()) <= 10 && Integer.parseInt(getTfPADespedir().getText())>0 && Integer.parseInt(getTfPADespedir().getText()) <=Integer.parseInt(getLblPAsientos().getText())  ){
             o.despedir(Integer.parseInt(getTfPADespedir().getText()));
         } else {
             JOptionPane.showMessageDialog(null,"This is not going to go the way you think! ");
@@ -882,7 +882,7 @@ public class FabricaFrame extends javax.swing.JFrame {
 
     private void BtnPPDespedir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPPDespedir1ActionPerformed
         PPatas o = new PPatas(AlmacenP,Fabrica,SEP,SPP,SCP,K,InP,OutP);
-        if(!"".equals(getTfPPDespedir1().getText()) && Integer.parseInt(getTfPPDespedir1().getText()) < 10 && Integer.parseInt(getTfPPDespedir1().getText())>0 && Integer.parseInt(getTfPPDespedir1().getText())<=Integer.parseInt(getLblPPatas().getText())){
+        if(!"".equals(getTfPPDespedir1().getText()) && Integer.parseInt(getTfPPDespedir1().getText()) <= 10 && Integer.parseInt(getTfPPDespedir1().getText())>0 && Integer.parseInt(getTfPPDespedir1().getText())<=Integer.parseInt(getLblPPatas().getText())){
             o.despedir(Integer.parseInt(getTfPPDespedir1().getText()));
          }else{
              JOptionPane.showMessageDialog(null,"This is not going to go the way you think! ");
@@ -896,7 +896,7 @@ public class FabricaFrame extends javax.swing.JFrame {
 
     private void BtnEDespedirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEDespedirActionPerformed
         Ensamblador o = new Ensamblador(SES, SPS, SCP, InS, OutS, SEP, SPP, SCP, InP, OutP, SEA, SPA, SCA, InA, OutA, K, Fabrica, AlmacenP, AlmacenA, AlmacenS);
-        if(!"".equals(getTfEDespedir().getText()) && Integer.parseInt(getTfEDespedir().getText()) < 5 && Integer.parseInt(getTfEDespedir().getText())>0 && Integer.parseInt(getTfEDespedir().getText()) <= Integer.parseInt(getLblEnsambladores().getText())){
+        if(!"".equals(getTfEDespedir().getText()) && Integer.parseInt(getTfEDespedir().getText()) <= 5 && Integer.parseInt(getTfEDespedir().getText())>0 && Integer.parseInt(getTfEDespedir().getText()) <= Integer.parseInt(getLblEnsambladores().getText())){
             o.despedir(Integer.parseInt(getTfEDespedir().getText()));
          }else{
             JOptionPane.showMessageDialog(null,"This is not going to go the way you think! ");

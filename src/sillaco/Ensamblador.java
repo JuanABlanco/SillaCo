@@ -72,11 +72,7 @@ public class Ensamblador extends Thread{
     public void run(){
         while(ejecutar){
             try {
-                SCP.acquire(4);
-                SEP.acquire(1);
-                    consumirP();
-                SEP.release();
-                SPP.release(4);
+                
                 
                 SCA.acquire(1);
                 SEA.acquire(1);
@@ -84,7 +80,11 @@ public class Ensamblador extends Thread{
                 SEA.release();
                 SPA.release();
 
-                
+                SCP.acquire(4);
+                SEP.acquire(1);
+                    consumirP();
+                SEP.release();
+                SPP.release(4);
 
                 this.sleep(2000/K);
 
@@ -110,18 +110,21 @@ public class Ensamblador extends Thread{
         this.fabrica.getLblASillas().setText(Integer.toString(num));
     }
     public void consumirP (){
-        for(int i=0; i<4; i++){
-            AlmacenP[OutP]=0;
-            OutP = (OutP+1)%50;
-        }
+        
+        AlmacenP[OutP]=0;
+        AlmacenP[(OutP+1)%50]=0;
+        AlmacenP[(OutP+2)%50]=0;
+        AlmacenP[(OutP+3)%50]=0;
+        OutP = (OutP+4)%50;
+
         int num = Integer.parseInt(this.fabrica.getLblAPatas().getText())-4;
         this.fabrica.getLblAPatas().setText(Integer.toString(num));
     }
     public void consumirA (){
-        for(int i=0; i<4; i++){
+        //for(int i=0; i<4; i++){
             AlmacenA[OutA]=0;
             OutA = (OutA+1)%40;
-        }
+        //}
         
         int num = Integer.parseInt(this.fabrica.getLblAAsientos().getText())-1;
         this.fabrica.getLblAAsientos().setText(Integer.toString(num));

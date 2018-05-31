@@ -18,7 +18,7 @@ public class SillaCo {
     static public int AlmacenP []= new int[50];    
     static public int AlmacenA []= new int[40]; 
     //Constantes
-    static public int K=1;
+    static volatile public int K=1;
     //Semaforos del Almacen de Patas y sus apuntadores 
     static public Semaphore SEP= new Semaphore(1);
     static public Semaphore SPP= new Semaphore(AlmacenP.length);
@@ -34,6 +34,7 @@ public class SillaCo {
     //Semaforos del Almacen de Sillas y sus apuntadores 
     static public Semaphore SES= new Semaphore(1);
     static public Semaphore SPS= new Semaphore(AlmacenS.length);
+    static public Semaphore SCS= new Semaphore(0);
     static public int InS=0;
     static public int OutS=0;
     //Semaforo del contador
@@ -63,8 +64,8 @@ public class SillaCo {
             PA[i].start();
             Fabrica.getLblPAsientos().setText("2");
         }
-        for(int i=0; i<1; i++){
-            Ensam[i] = new Ensamblador(SES, SPS, SCP, InS, OutS, SEP, SPP, SCP, InP, OutP, SEA, SPA, SCA, InA, OutA, K, Fabrica, AlmacenP, AlmacenA, AlmacenS);
+        for(int i=0; i<1; i++){//
+            Ensam[i] = new Ensamblador(SES, SPS, SCS,InS,OutS, SEP, SPP, SCP, InP, OutP,SEA, SPA, SCA, InA, OutA, K, Fabrica,AlmacenP, AlmacenA, AlmacenS);
             Ensam[i].start();
             Fabrica.getLblEnsambladores().setText("1");
         }

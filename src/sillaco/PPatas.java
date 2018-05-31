@@ -42,6 +42,7 @@ public class PPatas extends Productor{
                 SP.acquire(1);
                 SE.acquire(1); 
                     producir();
+                    
                 SE.release();
                 SC.release();
                 this.sleep((1000*getJornada())/getK());

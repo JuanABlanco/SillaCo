@@ -113,7 +113,7 @@ public class Gerente extends Thread{
                         getCrono().setContador(50);
                         this.fabrica.getLblContador().setText(Integer.toString(getCrono().getContador()));
                         K=1;
-                    }else if(getCrono().getContador()<=30){
+                    }else if(getCrono().getContador()<=20){
                         Motivar();
                     }
                 SEC.release(1);
