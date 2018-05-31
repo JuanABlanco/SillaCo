@@ -735,12 +735,14 @@ public class FabricaFrame extends javax.swing.JFrame {
 
         BtnPausa.setBackground(new java.awt.Color(255, 255, 255));
         BtnPausa.setText("Pausa");
+        BtnPausa.setCursor(new java.awt.Cursor(java.awt.Cursor.CROSSHAIR_CURSOR));
         BtnPausa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnPausaActionPerformed(evt);
             }
         });
 
+        BtnReanudar.setBackground(new java.awt.Color(255, 255, 255));
         BtnReanudar.setText("Reanudar");
         BtnReanudar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -762,15 +764,13 @@ public class FabricaFrame extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(87, 87, 87)
-                                .addComponent(BtnPausa)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(136, 136, 136)
                                 .addComponent(BtnReanudar))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(label1)
-                                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel3)
@@ -782,7 +782,8 @@ public class FabricaFrame extends javax.swing.JFrame {
                                     .addGap(35, 35, 35)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel11)
-                                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(BtnPausa))
                                     .addGap(29, 29, 29)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -821,17 +822,15 @@ public class FabricaFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(BtnPausa)
-                            .addComponent(BtnReanudar))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(BtnReanudar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                        .addComponent(BtnPausa, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    Espera u = new Espera();
     private void BtnPAContratarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPAContratarActionPerformed
         PAsientos o =new PAsientos(AlmacenA,Fabrica,SEA,SPA,SCA,K,InA,OutA);
         if(!"".equals(getTfPAContratar().getText()) && Integer.parseInt(getTfPAContratar().getText()) < 10 && Integer.parseInt(getTfPAContratar().getText())>0 && Integer.parseInt(getTfPAContratar().getText())<= 10-Integer.parseInt(getLblPAsientos().getText())){
@@ -853,12 +852,13 @@ public class FabricaFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnEContratarActionPerformed
 
     private void BtnPausaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPausaActionPerformed
-           sillaco.SillaCo.pausar();
+           sillaco.SillaCo.pausar(); 
+           u.setVisible(true);
     }//GEN-LAST:event_BtnPausaActionPerformed
 
     private void BtnPADespedirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPADespedirActionPerformed
         PAsientos o =new PAsientos(AlmacenA,Fabrica,SEA,SPA,SCA,K,InA,OutA);
-        if(!"".equals(getTfPADespedir().getText()) && Integer.parseInt(getTfPADespedir().getText()) < 10 && Integer.parseInt(getTfPADespedir().getText())>0 && Integer.parseInt(getTfPADespedir().getText()) < Integer.parseInt(getLblPAsientos().getText())  ){
+        if(!"".equals(getTfPADespedir().getText()) && Integer.parseInt(getTfPADespedir().getText()) < 10 && Integer.parseInt(getTfPADespedir().getText())>0 && Integer.parseInt(getTfPADespedir().getText()) <=Integer.parseInt(getLblPAsientos().getText())  ){
             o.despedir(Integer.parseInt(getTfPADespedir().getText()));
         } else {
             JOptionPane.showMessageDialog(null,"This is not going to go the way you think! ");
@@ -906,6 +906,7 @@ public class FabricaFrame extends javax.swing.JFrame {
 
     private void BtnReanudarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnReanudarActionPerformed
         sillaco.SillaCo.reanudar();
+        u.setVisible(false);
     }//GEN-LAST:event_BtnReanudarActionPerformed
 
     /**
